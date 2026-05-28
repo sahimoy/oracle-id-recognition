@@ -310,52 +310,6 @@ header{
 }
 
 
-/* ── Bulk Upload */
-.bulk-drop{
-  border:2px dashed #1A6BAF;border-radius:12px;
-  padding:24px 18px;text-align:center;cursor:pointer;
-  background:rgba(0,100,180,.06);transition:all .25s;
-  margin-top:4px;
-}
-.bulk-drop:hover,.bulk-drop.over{
-  border-color:#00D4FF;background:rgba(0,212,255,.06);
-  box-shadow:0 0 16px rgba(0,212,255,.12);
-}
-.bulk-drop .bd-icon{font-size:28px;margin-bottom:8px}
-.bulk-drop .bd-t{font-weight:600;font-size:13px;color:#C8DCF0;margin-bottom:4px}
-.bulk-drop .bd-s{font-family:monospace;font-size:10px;color:#4A6A8A}
-
-/* ── Bulk Progress */
-.bulk-progress{
-  background:#0D1525;border:1px solid #1E3A5F;border-radius:10px;
-  overflow:hidden;display:none;
-}
-.bulk-progress.show{display:block}
-.bp-head{
-  background:rgba(0,174,239,.1);border-bottom:1px solid #1E3A5F;
-  padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
-  font-family:monospace;font-size:10px;
-}
-.bp-title{color:#00D4FF;letter-spacing:2px}
-.bp-count{color:#4A6A8A}
-.bp-list{max-height:200px;overflow-y:auto;padding:8px 0}
-.bp-item{
-  display:flex;align-items:center;gap:10px;
-  padding:6px 14px;font-family:monospace;font-size:10px;
-  border-bottom:1px solid rgba(30,58,95,.3);
-}
-.bp-item:last-child{border-bottom:none}
-.bp-item .bpi-name{flex:1;color:#C8DCF0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bp-item .bpi-status{flex-shrink:0;padding:2px 8px;border-radius:3px;font-size:9px;font-weight:700}
-.bpi-waiting {background:rgba(74,106,138,.2);color:#4A6A8A}
-.bpi-processing{background:rgba(0,174,239,.15);color:#00AEEF;animation:blink 1s infinite}
-.bpi-done    {background:rgba(0,255,136,.12);color:#00FF88}
-.bpi-error   {background:rgba(199,70,52,.15);color:#E07060}
-.bp-overall{padding:10px 14px;border-top:1px solid #1E3A5F}
-.bp-bar-lbl{font-family:monospace;font-size:10px;color:#4A6A8A;margin-bottom:5px;display:flex;justify-content:space-between}
-.bp-bar-bg{background:rgba(30,58,95,.4);border-radius:4px;height:6px;overflow:hidden}
-.bp-bar-fill{height:100%;width:0%;transition:width .4s;border-radius:4px;background:linear-gradient(90deg,#1A6BAF,#00D4FF);box-shadow:0 0 8px rgba(0,212,255,.4)}
-
 /* ── Excel Export */
 .xlsbtn{
   background:linear-gradient(135deg,#1D6F42,#157347);
@@ -363,21 +317,22 @@ header{
   color:white;font-weight:700;font-size:13px;letter-spacing:2px;
   text-transform:uppercase;cursor:pointer;width:100%;
   display:flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 4px 18px rgba(29,111,66,.4);transition:all .2s;margin-top:4px;
+  box-shadow:0 4px 18px rgba(29,111,66,.4);transition:all .2s;
+  margin-top:4px;
 }
-.xlsbtn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 24px rgba(29,111,66,.55)}
+.xlsbtn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(29,111,66,.55)}
 .xlsbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .xls-counter{
-  background:rgba(29,111,66,.1);border:1px solid rgba(29,111,66,.3);
+  background:rgba(29,111,66,.15);border:1px solid rgba(29,111,66,.3);
   border-radius:8px;padding:10px 14px;
   display:flex;align-items:center;justify-content:space-between;
+  font-family:monospace;font-size:11px;
 }
-.xls-counter .xc-left{display:flex;flex-direction:column;gap:3px}
-.xls-counter .xc-label{font-family:monospace;font-size:10px;color:#4A6A8A;letter-spacing:1px}
-.xls-counter .xc-val{font-family:monospace;font-size:15px;color:#00FF88;font-weight:700}
+.xls-counter .xc-label{color:#4A6A8A;letter-spacing:1px}
+.xls-counter .xc-val{color:#00FF88;font-weight:700;font-size:14px}
 .xls-counter .xc-clear{
   background:none;border:1px solid #1E3A5F;color:#4A6A8A;
-  font-family:monospace;font-size:9px;padding:3px 10px;
+  font-family:monospace;font-size:9px;padding:2px 8px;
   border-radius:3px;cursor:pointer;letter-spacing:1px;transition:all .2s;
 }
 .xls-counter .xc-clear:hover{border-color:#E07060;color:#E07060}
@@ -475,34 +430,9 @@ header{
       <span id="btxt">⬡ ANALYZE WITH AI VISION</span>
     </button>
 
-    <!-- BULK FOLDER UPLOAD -->
-<div class="bulk-drop" id="bulkDrop" title="Select a folder to process all images">
-  <div class="bd-icon">📁</div>
-  <div class="bd-t">Bulk Folder Upload</div>
-  <div class="bd-s">Select a folder — all images processed automatically</div>
-  <input type="file" id="bulkInput" accept="image/*" multiple style="display:none">
-</div>
-
-<!-- BULK PROGRESS -->
-<div class="bulk-progress" id="bulkProgress">
-  <div class="bp-head">
-    <span class="bp-title">⬡ BULK PROCESSING</span>
-    <span class="bp-count" id="bpCount">0 / 0</span>
-  </div>
-  <div class="bp-list" id="bpList"></div>
-  <div class="bp-overall">
-    <div class="bp-bar-lbl">
-      <span id="bpStatus">Initializing...</span>
-      <span id="bpPct">0%</span>
-    </div>
-    <div class="bp-bar-bg"><div class="bp-bar-fill" id="bpFill"></div></div>
-  </div>
-</div>
-
-<!-- EXCEL COUNTER + EXPORT -->
-<div class="xls-counter" id="xlsCounter" style="display:none">
-  <div class="xc-left">
-    <div class="xc-label">📊 DOCUMENTS QUEUED FOR EXCEL</div>
+    <div class="xls-counter" id="xlsCounter" style="display:none">
+  <div>
+    <div class="xc-label">📊 EXCEL ROWS QUEUED</div>
     <div class="xc-val" id="xlsCount">0 documents</div>
   </div>
   <button class="xc-clear" onclick="clearXls()">CLEAR</button>
@@ -544,9 +474,7 @@ setInterval(()=>{
 
 // ── State
 let b64=null, mime='image/jpeg', progTimer=null
-let xlsRows=[]  // Excel accumulator
-let bulkQueue=[] // Bulk file queue
-let bulkRunning=false
+let xlsRows=[] // accumulated Excel rows
 
 // ── Drop zone
 const drop=document.getElementById('drop')
@@ -773,188 +701,42 @@ function copySql(btn,b64sql){
   })
 }
 
-// ── Bulk Upload Setup
-const bulkDrop=document.getElementById('bulkDrop')
-const bulkInput=document.getElementById('bulkInput')
-
-bulkDrop.addEventListener('click',()=>bulkInput.click())
-bulkDrop.addEventListener('dragover',e=>{e.preventDefault();bulkDrop.classList.add('over')})
-bulkDrop.addEventListener('dragleave',()=>bulkDrop.classList.remove('over'))
-bulkDrop.addEventListener('drop',e=>{
-  e.preventDefault();bulkDrop.classList.remove('over')
-  const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'))
-  if(files.length) startBulk(files)
-})
-bulkInput.addEventListener('change',e=>{
-  const files=[...e.target.files].filter(f=>f.type.startsWith('image/'))
-  if(files.length) startBulk(files)
-  bulkInput.value=''
-})
-
-function startBulk(files){
-  const apiKey=document.getElementById('apiKey').value.trim()
-  if(!apiKey){showErr('Please enter your API key first.');return}
-  bulkQueue=[...files]
-  bulkRunning=true
-
-  // Build list UI
-  const list=document.getElementById('bpList')
-  list.innerHTML=''
-  files.forEach((f,i)=>{
-    const el=document.createElement('div')
-    el.className='bp-item'
-    el.id='bpi-'+i
-    el.innerHTML=`<span class="bpi-name">${f.name}</span><span class="bpi-status bpi-waiting" id="bpi-s-${i}">WAITING</span>`
-    list.appendChild(el)
-  })
-
-  document.getElementById('bulkProgress').classList.add('show')
-  document.getElementById('bpCount').textContent='0 / '+files.length
-  document.getElementById('bpStatus').textContent='Starting...'
-  document.getElementById('bpFill').style.width='0%'
-  document.getElementById('bpPct').textContent='0%'
-
-  processBulkQueue(files, apiKey, 0)
-}
-
-async function processBulkQueue(files, apiKey, idx){
-  if(idx>=files.length){
-    document.getElementById('bpStatus').textContent='✅ All done! '+files.length+' documents processed.'
-    document.getElementById('bpFill').style.width='100%'
-    document.getElementById('bpPct').textContent='100%'
-    document.getElementById('bpCount').textContent=files.length+' / '+files.length
-    bulkRunning=false
-    return
-  }
-
-  const f=files[idx]
-  const pct=Math.round((idx/files.length)*100)
-  document.getElementById('bpFill').style.width=pct+'%'
-  document.getElementById('bpPct').textContent=pct+'%'
-  document.getElementById('bpCount').textContent=idx+' / '+files.length
-  document.getElementById('bpStatus').textContent='Processing: '+f.name
-  document.getElementById('bpi-s-'+idx).textContent='PROCESSING'
-  document.getElementById('bpi-s-'+idx).className='bpi-status bpi-processing'
-
-  // Scroll item into view
-  document.getElementById('bpi-'+idx).scrollIntoView({block:'nearest'})
-
-  try{
-    const b64=await fileToBase64(f)
-    const mime=f.type||'image/jpeg'
-    const parsed=await callApi(b64, mime, apiKey)
-    collectXlsRow(parsed)
-    // Show result briefly on right panel (last one stays visible)
-    clearResults()
-    renderResults(parsed)
-    document.getElementById('bpi-s-'+idx).textContent='DONE ✓'
-    document.getElementById('bpi-s-'+idx).className='bpi-status bpi-done'
-  }catch(e){
-    document.getElementById('bpi-s-'+idx).textContent='ERROR'
-    document.getElementById('bpi-s-'+idx).className='bpi-status bpi-error'
-  }
-
-  // Small delay between calls to avoid rate limiting
-  setTimeout(()=>processBulkQueue(files, apiKey, idx+1), 1200)
-}
-
-function fileToBase64(file){
-  return new Promise((res,rej)=>{
-    const r=new FileReader()
-    r.onload=ev=>res(ev.target.result.split(',')[1])
-    r.onerror=rej
-    r.readAsDataURL(file)
-  })
-}
-
-async function callApi(b64, mime, apiKey){
-  const prompt=`You are a JSON data extraction assistant. Look at this image and transcribe every piece of text you can read into the JSON structure below.
-
-Focus only on reading and transcribing the printed text. Return ONLY raw JSON, nothing else:
-
-{
-  "docType": "name the type of card shown",
-  "country": "country if readable",
-  "confidence": 0.95,
-  "fields": {
-    "firstName":          {"value": "first name text or null", "confidence": 0.95},
-    "lastName":           {"value": "last name text or null", "confidence": 0.95},
-    "fullName":           {"value": "full name text or null", "confidence": 0.95},
-    "dateOfBirth":        {"value": "birth date or null", "confidence": 0.95},
-    "gender":             {"value": "gender text or null", "confidence": 0.95},
-    "nationality":        {"value": "nationality or null", "confidence": 0.95},
-    "documentNumber":     {"value": "ID number or null", "confidence": 0.95},
-    "issueDate":          {"value": "issue date or null", "confidence": 0.95},
-    "expiryDate":         {"value": "expiry date or null", "confidence": 0.95},
-    "issuingAuthority":   {"value": "issuing authority or null", "confidence": 0.95},
-    "address":            {"value": "address text or null", "confidence": 0.95},
-    "curp":               {"value": "CURP code or null", "confidence": 0.95},
-    "electorKey":         {"value": "elector key or null", "confidence": 0.95},
-    "section":            {"value": "section number or null", "confidence": 0.95},
-    "mrz1":               {"value": "first machine readable line or null", "confidence": 0.95},
-    "mrz2":               {"value": "second machine readable line or null", "confidence": 0.95},
-    "placeOfBirth":       {"value": "place of birth or null", "confidence": 0.95},
-    "bloodType":          {"value": "blood type or null", "confidence": 0.95},
-    "restrictions":       {"value": "restrictions or null", "confidence": 0.95}
-  },
-  "rawText": "all text you can read from the image",
-  "notes": "visual description of the card layout and features"
-}`
-
-  const res=await fetch('/api/analyze',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':apiKey},
-    body:JSON.stringify({
-      model:'claude-opus-4-5',
-      max_tokens:1500,
-      system:'You are an OCR and data extraction assistant. Your only job is to read text from images and return it as JSON. You always return valid JSON and nothing else. You never refuse image text extraction requests.',
-      messages:[{role:'user',content:[
-        {type:'image',source:{type:'base64',media_type:mime,data:b64}},
-        {type:'text',text:prompt}
-      ]}]
-    })
-  })
-  const data=await res.json()
-  if(data.error) throw new Error(data.error.message)
-  const raw=data.content.map(b=>b.text||'').join('')
-  const clean=raw.replace(/```json|```/g,'').trim()
-  return JSON.parse(clean)
-}
-
 // ── Excel Export
-const XLS_COLS=['DOC_TYPE','COUNTRY','SCAN_DATE','FULL_NAME','FIRST_NAME','LAST_NAME',
+const XLS_COLS = ['DOC_TYPE','COUNTRY','SCAN_DATE','FULL_NAME','FIRST_NAME','LAST_NAME',
   'DATE_OF_BIRTH','GENDER','NATIONALITY','DOC_NUMBER','CURP','ELECTOR_KEY',
   'ISSUE_DATE','EXPIRY_DATE','ISSUING_AUTH','ADDRESS','PLACE_OF_BIRTH',
   'BLOOD_TYPE','SECTION','MRZ_LINE_1','MRZ_LINE_2','RESTRICTIONS','CONFIDENCE_PCT','RAW_TEXT']
 
 function collectXlsRow(d){
   const f=d.fields||{}
-  xlsRows.push({
-    DOC_TYPE:      d.docType||'',
-    COUNTRY:       d.country||'',
-    SCAN_DATE:     new Date().toLocaleString('en-GB'),
-    FULL_NAME:     f.fullName?.value||'',
-    FIRST_NAME:    f.firstName?.value||'',
-    LAST_NAME:     f.lastName?.value||'',
-    DATE_OF_BIRTH: f.dateOfBirth?.value||'',
-    GENDER:        f.gender?.value||'',
-    NATIONALITY:   f.nationality?.value||'',
-    DOC_NUMBER:    f.documentNumber?.value||'',
-    CURP:          f.curp?.value||'',
-    ELECTOR_KEY:   f.electorKey?.value||'',
-    ISSUE_DATE:    f.issueDate?.value||'',
-    EXPIRY_DATE:   f.expiryDate?.value||'',
-    ISSUING_AUTH:  f.issuingAuthority?.value||'',
-    ADDRESS:       f.address?.value||'',
-    PLACE_OF_BIRTH:f.placeOfBirth?.value||'',
-    BLOOD_TYPE:    f.bloodType?.value||'',
-    SECTION:       f.section?.value||'',
-    MRZ_LINE_1:    f.mrz1?.value||'',
-    MRZ_LINE_2:    f.mrz2?.value||'',
-    RESTRICTIONS:  f.restrictions?.value||'',
-    CONFIDENCE_PCT:Math.round((d.confidence||0.9)*100)+'%',
-    RAW_TEXT:      d.rawText||''
-  })
+  const row={
+    DOC_TYPE: d.docType||'',
+    COUNTRY: d.country||'',
+    SCAN_DATE: new Date().toLocaleString('en-GB'),
+    FULL_NAME:       f.fullName?.value||'',
+    FIRST_NAME:      f.firstName?.value||'',
+    LAST_NAME:       f.lastName?.value||'',
+    DATE_OF_BIRTH:   f.dateOfBirth?.value||'',
+    GENDER:          f.gender?.value||'',
+    NATIONALITY:     f.nationality?.value||'',
+    DOC_NUMBER:      f.documentNumber?.value||'',
+    CURP:            f.curp?.value||'',
+    ELECTOR_KEY:     f.electorKey?.value||'',
+    ISSUE_DATE:      f.issueDate?.value||'',
+    EXPIRY_DATE:     f.expiryDate?.value||'',
+    ISSUING_AUTH:    f.issuingAuthority?.value||'',
+    ADDRESS:         f.address?.value||'',
+    PLACE_OF_BIRTH:  f.placeOfBirth?.value||'',
+    BLOOD_TYPE:      f.bloodType?.value||'',
+    SECTION:         f.section?.value||'',
+    MRZ_LINE_1:      f.mrz1?.value||'',
+    MRZ_LINE_2:      f.mrz2?.value||'',
+    RESTRICTIONS:    f.restrictions?.value||'',
+    CONFIDENCE_PCT:  Math.round((d.confidence||0.9)*100)+'%',
+    RAW_TEXT:        d.rawText||''
+  }
+  xlsRows.push(row)
+  // Update UI
   const n=xlsRows.length
   document.getElementById('xlsCount').textContent=n+' document'+(n>1?'s':'')
   document.getElementById('xlsCounter').style.display='flex'
@@ -963,29 +745,36 @@ function collectXlsRow(d){
 
 function exportXls(){
   if(!xlsRows.length) return
-  const ws=XLSX.utils.json_to_sheet(xlsRows,{header:XLS_COLS})
+  // Build worksheet with header styling
+  const ws=XLSX.utils.json_to_sheet(xlsRows, {header: XLS_COLS})
+
+  // Column widths
   ws['!cols']=[
     {wch:28},{wch:14},{wch:20},{wch:30},{wch:18},{wch:18},
     {wch:14},{wch:8},{wch:16},{wch:18},{wch:22},{wch:22},
     {wch:14},{wch:14},{wch:24},{wch:36},{wch:20},
     {wch:12},{wch:10},{wch:42},{wch:42},{wch:20},{wch:14},{wch:50}
   ]
+
   const wb=XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(wb,ws,'ID_RECORDS')
+  XLSX.utils.book_append_sheet(wb, ws, 'ID_RECORDS')
+
+  // Summary sheet
   const summary=[
     ['Oracle ID Recognition System — Export'],
-    ['Generated:',new Date().toLocaleString('en-GB')],
-    ['Total Documents:',xlsRows.length],
+    ['Generated:', new Date().toLocaleString('en-GB')],
+    ['Total Documents:', xlsRows.length],
     [''],
     ['Document Types Scanned:'],
     ...Object.entries(xlsRows.reduce((a,r)=>{a[r.DOC_TYPE]=(a[r.DOC_TYPE]||0)+1;return a},{}))
-      .map(([k,v])=>['  '+k,v+' document(s)'])
+      .map(([k,v])=>['  '+k, v+' document(s)'])
   ]
   const ws2=XLSX.utils.aoa_to_sheet(summary)
   ws2['!cols']=[{wch:40},{wch:30}]
-  XLSX.utils.book_append_sheet(wb,ws2,'Summary')
+  XLSX.utils.book_append_sheet(wb, ws2, 'Summary')
+
   const ts=new Date().toISOString().slice(0,10)
-  XLSX.writeFile(wb,`Oracle_ID_Records_${ts}.xlsx`)
+  XLSX.writeFile(wb, `Oracle_ID_Records_${ts}.xlsx`)
 }
 
 function clearXls(){
@@ -996,7 +785,6 @@ function clearXls(){
 }
 
 // ── Helpers
-
 let _prog=0
 function setProgress(v){
   if(v===null){_prog=Math.min(_prog+Math.random()*7,85)}
